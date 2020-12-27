@@ -12,6 +12,7 @@
   --color-light-grey: #dedede;
   --color-lighter-grey: #efefef;
   --color-bright-yellow: rgba(253, 254, 6, 0.4);
+  --color-lighter-blue: rgba(70, 171, 250, 0.1);
 }
 
 html {
@@ -48,6 +49,9 @@ input[type="text"] {
   padding: 0.6rem 1rem;
   border: none;
 }
+.btn:focus {
+  outline: none;
+}
 .btn.text {
   border: none;
   background: none;
@@ -75,7 +79,7 @@ input[type="text"] {
   padding: 1rem;
 }
 .todo-list li:hover {
-  background-color: var(--color-lighter-grey);
+  background-color: var(--color-lighter-blue);
 }
 
 .todo-item {

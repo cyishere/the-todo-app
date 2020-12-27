@@ -7,7 +7,7 @@
     },
     {
       "id": 2,
-      "content": "Incididunt ad commodo magna esse velit Lorem nisi excepteur.",
+      "content": "Incididunt ad commodo magna esse velit Lorem nisi exce",
       "completed": false
     },
     {
@@ -22,7 +22,7 @@
     },
     {
       "id": 6,
-      "content": "todo id 6 not 5",
+      "content": "todo id 6 not 5, haha",
       "completed": false
     },
     {
@@ -32,8 +32,8 @@
     },
     {
       "id": 8,
-      "content": "debbie ocean",
-      "completed": true
+      "content": "debbie ocean loves lou miller",
+      "completed": false
     }
   ]
 }
