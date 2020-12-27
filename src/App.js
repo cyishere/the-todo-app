@@ -1,75 +1,103 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
+import TodoForm from "./components/TodoForm";
+import TodoItem from "./components/TodoItem";
 
-const data = [
-  { id: 1, content: "Watch Tea with Mussolini", completed: false },
-  {
-    id: 2,
-    content: "Learn the tutorial about checkbox with CSS",
-    completed: false,
-  },
-  {
-    id: 3,
-    content: "Watch the last episode of 'The Mandalorian' season 2",
-    completed: true,
-  },
-];
+import {
+  getAllTodosService,
+  addNewTodoService,
+  deleteTodoService,
+  getOneTodoService,
+  updateTodoService,
+} from "./services/todoServices";
 
 const generateId = (todos) => {
-  return todos.length + 1;
+  const ids = todos.map((todo) => todo.id);
+  return Math.max(...ids) + 1;
 };
 
 const App = () => {
-  const [todos, setTodos] = useState(data);
+  const [todos, setTodos] = useState([]);
   const [todo, setTodo] = useState("");
+  const [update, setUpdate] = useState("");
 
-  const handleOnChange = (e) => {
+  const getAllTodos = async () => {
+    const allTodos = await getAllTodosService();
+    setTodos(allTodos.reverse());
+  };
+
+  useEffect(() => {
+    getAllTodos();
+  }, []);
+
+  const handleChange = (e) => {
     setTodo(e.target.value);
   };
 
-  const addTodo = () => {
-    const newTodos = [
-      ...todos,
-      { id: generateId(todos), content: todo, completed: false },
-    ];
+  const addTodo = async (e) => {
+    e.preventDefault();
+
+    const newTodo = { id: generateId(todos), content: todo, completed: false };
+    const newTodos = [newTodo, ...todos];
+    await addNewTodoService(newTodo);
     setTodos(newTodos);
     setTodo("");
+  };
+
+  const deleteTodo = async (todoId) => {
+    await deleteTodoService(todoId);
+    const updatedTodos = todos.filter((todo) => todo.id !== todoId);
+    setTodos(updatedTodos);
+    alert(`#${todoId} todo is deleted.`);
+  };
+
+  const toggleCompleted = async (todoId) => {
+    const standByTodo = await getOneTodoService(todoId);
+    const updateInfo = { ...standByTodo, completed: !standByTodo.completed };
+    const updatedTodo = await updateTodoService(todoId, updateInfo);
+    const updatedTodos = todos.map((todo) =>
+      todo.id === updatedTodo.id ? updatedTodo : todo
+    );
+    setTodos(updatedTodos);
+  };
+
+  const handleUpdateChange = (e) => {
+    setUpdate(e.target.value);
+  };
+
+  const updateTodo = async (todoId) => {
+    const standByTodo = todos.find((todo) => todo.id === todoId);
+    const updateInfo = { ...standByTodo, content: update };
+    const updatedTodo = await updateTodoService(todoId, updateInfo);
+    const updatedTodos = todos.map((todo) =>
+      todo.id === updatedTodo.id ? updatedTodo : todo
+    );
+    setTodos(updatedTodos);
   };
 
   return (
     <div className="container">
       <h1>Todo List</h1>
 
-      <div className="add-control">
-        <input
-          type="text"
-          className="todo"
-          value={todo}
-          onChange={handleOnChange}
-        />
-        <button className="btn" onClick={addTodo}>
-          Add
-        </button>
-      </div>
+      <TodoForm todo={todo} handleChange={handleChange} addTodo={addTodo} />
 
       <div className="todo-list">
-        <ul>
-          {todos.map((todo) => (
-            <li className="todo-time" key={todo.id}>
-              <input
-                type="checkbox"
-                id={`todo${todo.id}`}
-                defaultChecked={todo.completed}
+        {todos.length < 1 ? (
+          <p className="todo-item">Loading...</p>
+        ) : (
+          <ul>
+            {todos.map((todo) => (
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                deleteTodo={deleteTodo}
+                toggleCompleted={toggleCompleted}
+                handleChange={handleUpdateChange}
+                updateTodo={updateTodo}
               />
-              <label
-                htmlFor={`todo${todo.id}`}
-                className={todo.completed ? "completed" : ""}
-              >
-                {todo.content}
-              </label>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
