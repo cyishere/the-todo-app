@@ -21,11 +21,6 @@
       "completed": true
     },
     {
-      "id": 6,
-      "content": "todo id 6 not 5, haha",
-      "completed": false
-    },
-    {
       "id": 7,
       "content": "eat orange",
       "completed": true
@@ -33,6 +28,16 @@
     {
       "id": 8,
       "content": "debbie ocean loves lou miller",
+      "completed": false
+    },
+    {
+      "id": 9,
+      "content": "let me see",
+      "completed": true
+    },
+    {
+      "id": 10,
+      "content": "lou miller loves debbie ocean badly",
       "completed": false
     }
   ]

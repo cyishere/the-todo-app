@@ -19,7 +19,7 @@ const generateId = (todos) => {
 const App = () => {
   const [todos, setTodos] = useState([]);
   const [todo, setTodo] = useState("");
-  const [update, setUpdate] = useState("");
+  const [showClosed, setShowClosed] = useState(false);
 
   const getAllTodos = async () => {
     const allTodos = await getAllTodosService();
@@ -29,6 +29,9 @@ const App = () => {
   useEffect(() => {
     getAllTodos();
   }, []);
+
+  const unCompletedTodos = todos.filter((todo) => !todo.completed);
+  const completedTodos = todos.filter((todo) => todo.completed);
 
   const handleChange = (e) => {
     setTodo(e.target.value);
@@ -61,18 +64,8 @@ const App = () => {
     setTodos(updatedTodos);
   };
 
-  const handleUpdateChange = (e) => {
-    setUpdate(e.target.value);
-  };
-
-  const updateTodo = async (todoId) => {
-    const standByTodo = todos.find((todo) => todo.id === todoId);
-    const updateInfo = { ...standByTodo, content: update };
-    const updatedTodo = await updateTodoService(todoId, updateInfo);
-    const updatedTodos = todos.map((todo) =>
-      todo.id === updatedTodo.id ? updatedTodo : todo
-    );
-    setTodos(updatedTodos);
+  const showClosedTodos = () => {
+    setShowClosed(!showClosed);
   };
 
   return (
@@ -82,23 +75,44 @@ const App = () => {
       <TodoForm todo={todo} handleChange={handleChange} addTodo={addTodo} />
 
       <div className="todo-list">
-        {todos.length < 1 ? (
+        {unCompletedTodos.length < 1 ? (
           <p className="todo-item">Loading...</p>
         ) : (
           <ul>
-            {todos.map((todo) => (
+            {unCompletedTodos.map((todo) => (
               <TodoItem
                 key={todo.id}
                 todo={todo}
                 deleteTodo={deleteTodo}
                 toggleCompleted={toggleCompleted}
-                handleChange={handleUpdateChange}
-                updateTodo={updateTodo}
               />
             ))}
           </ul>
         )}
       </div>
+
+      <button className="btn" onClick={showClosedTodos}>
+        {showClosed ? "➖ Hide closed tasks" : "➕ Show closed tasks"}
+      </button>
+
+      {showClosed && (
+        <div className="todo-list">
+          {completedTodos.length < 1 ? (
+            <p>There's no closed tasks.</p>
+          ) : (
+            <ul>
+              {completedTodos.map((todo) => (
+                <TodoItem
+                  key={todo.id}
+                  todo={todo}
+                  deleteTodo={deleteTodo}
+                  toggleCompleted={toggleCompleted}
+                />
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   );
 };
