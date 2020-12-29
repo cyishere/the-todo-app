@@ -5,3 +5,7 @@ I'm learning React.js for months since March 2020. I learned from many tutorials
 ## Main Branch
 
 A simple todo app made with React.js & Fake API.
+
+## Branch: with-redux
+
+Refactoring the app with Redux.
