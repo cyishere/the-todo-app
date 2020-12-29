@@ -1,7 +1,11 @@
 import { useState } from "react";
-import { updateTodoService } from "../services/todoServices";
+import {
+  deleteTodoService,
+  getOneTodoService,
+  updateTodoService,
+} from "../services/todoServices";
 
-const TodoItem = ({ todo, deleteTodo, toggleCompleted }) => {
+const TodoItem = ({ todo, todos, setTodos }) => {
   const classes = todo.completed ? "completed" : "";
   const [update, setUpdate] = useState(todo.content);
   const [status, setStatus] = useState("idle");
@@ -19,6 +23,23 @@ const TodoItem = ({ todo, deleteTodo, toggleCompleted }) => {
     setStatus("idle");
     const updateInfo = { ...origin, content: update };
     await updateTodoService(todoId, updateInfo);
+  };
+
+  const toggleCompleted = async (todoId) => {
+    const standByTodo = await getOneTodoService(todoId);
+    const updateInfo = { ...standByTodo, completed: !standByTodo.completed };
+    const updatedTodo = await updateTodoService(todoId, updateInfo);
+    const updatedTodos = todos.map((todo) =>
+      todo.id === updatedTodo.id ? updatedTodo : todo
+    );
+    setTodos(updatedTodos);
+  };
+
+  const deleteTodo = async (todoId) => {
+    await deleteTodoService(todoId);
+    const updatedTodos = todos.filter((todo) => todo.id !== todoId);
+    setTodos(updatedTodos);
+    alert(`#${todoId} todo is deleted.`);
   };
 
   const btnControls =

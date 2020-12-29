@@ -3,22 +3,11 @@ import "./App.css";
 import TodoForm from "./components/TodoForm";
 import TodoItem from "./components/TodoItem";
 
-import {
-  getAllTodosService,
-  addNewTodoService,
-  deleteTodoService,
-  getOneTodoService,
-  updateTodoService,
-} from "./services/todoServices";
-
-const generateId = (todos) => {
-  const ids = todos.map((todo) => todo.id);
-  return Math.max(...ids) + 1;
-};
+import { getAllTodosService } from "./services/todoServices";
 
 const App = () => {
   const [todos, setTodos] = useState([]);
-  const [todo, setTodo] = useState("");
+  const [todoInput, setTodoInput] = useState("");
   const [showClosed, setShowClosed] = useState(false);
 
   const getAllTodos = async () => {
@@ -33,37 +22,6 @@ const App = () => {
   const unCompletedTodos = todos.filter((todo) => !todo.completed);
   const completedTodos = todos.filter((todo) => todo.completed);
 
-  const handleChange = (e) => {
-    setTodo(e.target.value);
-  };
-
-  const addTodo = async (e) => {
-    e.preventDefault();
-
-    const newTodo = { id: generateId(todos), content: todo, completed: false };
-    const newTodos = [newTodo, ...todos];
-    await addNewTodoService(newTodo);
-    setTodos(newTodos);
-    setTodo("");
-  };
-
-  const deleteTodo = async (todoId) => {
-    await deleteTodoService(todoId);
-    const updatedTodos = todos.filter((todo) => todo.id !== todoId);
-    setTodos(updatedTodos);
-    alert(`#${todoId} todo is deleted.`);
-  };
-
-  const toggleCompleted = async (todoId) => {
-    const standByTodo = await getOneTodoService(todoId);
-    const updateInfo = { ...standByTodo, completed: !standByTodo.completed };
-    const updatedTodo = await updateTodoService(todoId, updateInfo);
-    const updatedTodos = todos.map((todo) =>
-      todo.id === updatedTodo.id ? updatedTodo : todo
-    );
-    setTodos(updatedTodos);
-  };
-
   const showClosedTodos = () => {
     setShowClosed(!showClosed);
   };
@@ -72,7 +30,12 @@ const App = () => {
     <div className="container">
       <h1>Todo List</h1>
 
-      <TodoForm todo={todo} handleChange={handleChange} addTodo={addTodo} />
+      <TodoForm
+        todoInput={todoInput}
+        setTodoInput={setTodoInput}
+        todos={todos}
+        setTodos={setTodos}
+      />
 
       <div className="todo-list">
         {unCompletedTodos.length < 1 ? (
@@ -83,8 +46,8 @@ const App = () => {
               <TodoItem
                 key={todo.id}
                 todo={todo}
-                deleteTodo={deleteTodo}
-                toggleCompleted={toggleCompleted}
+                todos={todos}
+                setTodos={setTodos}
               />
             ))}
           </ul>
@@ -105,8 +68,8 @@ const App = () => {
                 <TodoItem
                   key={todo.id}
                   todo={todo}
-                  deleteTodo={deleteTodo}
-                  toggleCompleted={toggleCompleted}
+                  todos={todos}
+                  setTodos={setTodos}
                 />
               ))}
             </ul>

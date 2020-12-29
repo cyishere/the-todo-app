@@ -1,16 +1,6 @@
 {
   "todos": [
     {
-      "id": 1,
-      "content": "Veniam magna nostrud ex dolore enim dolor ipsum eiusmod.",
-      "completed": false
-    },
-    {
-      "id": 2,
-      "content": "Incididunt ad commodo magna esse velit Lorem nisi exce",
-      "completed": false
-    },
-    {
       "id": 3,
       "content": "Watch the last episode of 'The Mandalorian' season 2.",
       "completed": true
@@ -26,18 +16,33 @@
       "completed": true
     },
     {
-      "id": 8,
-      "content": "debbie ocean loves lou miller",
-      "completed": false
-    },
-    {
       "id": 9,
       "content": "let me see",
       "completed": true
     },
     {
-      "id": 10,
-      "content": "lou miller loves debbie ocean badly",
+      "id": 11,
+      "content": "Delete some stupid filler text",
+      "completed": true
+    },
+    {
+      "id": 12,
+      "content": "how about now ?",
+      "completed": false
+    },
+    {
+      "id": 13,
+      "content": "Dolore cillum sunt ipsum consequat ipsum duis non laboris laboris.",
+      "completed": false
+    },
+    {
+      "id": 14,
+      "content": "Nisi in eu incididunt irure.",
+      "completed": false
+    },
+    {
+      "id": 15,
+      "content": "refactoring the app",
       "completed": false
     }
   ]
