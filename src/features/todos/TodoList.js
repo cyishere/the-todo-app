@@ -3,7 +3,7 @@ import { getAllTodos, selectAllTodos } from "./todosSlice";
 import TodoItem from "./TodoItem";
 import { useDispatch, useSelector } from "react-redux";
 
-const TodoList = ({ setTodos }) => {
+const TodoList = () => {
   const [showClosed, setShowClosed] = useState(false);
 
   const todos = useSelector(selectAllTodos);
@@ -29,12 +29,7 @@ const TodoList = ({ setTodos }) => {
         ) : (
           <ul>
             {unCompletedTodos.map((todo) => (
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                todos={todos}
-                setTodos={setTodos}
-              />
+              <TodoItem key={todo.id} todo={todo} />
             ))}
           </ul>
         )}
@@ -51,12 +46,7 @@ const TodoList = ({ setTodos }) => {
           ) : (
             <ul>
               {completedTodos.map((todo) => (
-                <TodoItem
-                  key={todo.id}
-                  todo={todo}
-                  todos={todos}
-                  setTodos={setTodos}
-                />
+                <TodoItem key={todo.id} todo={todo} />
               ))}
             </ul>
           )}

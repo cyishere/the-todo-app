@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
-import { todoAdded } from "./todosSlice";
+import { addNewTodo } from "./todosSlice";
 
 const TodoForm = () => {
   const [todoInput, setTodoInput] = useState("");
@@ -15,7 +15,7 @@ const TodoForm = () => {
   const addTodo = (e) => {
     e.preventDefault();
     dispatch(
-      todoAdded({
+      addNewTodo({
         id: nanoid(),
         content: todoInput,
         completed: false,

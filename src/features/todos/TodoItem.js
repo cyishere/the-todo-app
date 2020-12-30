@@ -1,14 +1,13 @@
 import { useState } from "react";
-import {
-  deleteTodoService,
-  getOneTodoService,
-  updateTodoService,
-} from "../../services/todoServices";
+import { useDispatch } from "react-redux";
+import { deleteTodo, updateTodo } from "./todosSlice";
 
-const TodoItem = ({ todo, todos, setTodos }) => {
+const TodoItem = ({ todo }) => {
   const classes = todo.completed ? "completed" : "";
   const [update, setUpdate] = useState(todo.content);
   const [status, setStatus] = useState("idle");
+
+  const dispatch = useDispatch();
 
   const handleCancel = () => {
     setStatus("edle");
@@ -19,36 +18,27 @@ const TodoItem = ({ todo, todos, setTodos }) => {
     setUpdate(e.target.value);
   };
 
-  const updateTodo = async (todoId, origin) => {
+  const saveTodoUpdate = async () => {
     setStatus("idle");
-    const updateInfo = { ...origin, content: update };
-    await updateTodoService(todoId, updateInfo);
+    await dispatch(updateTodo({ ...todo, content: update }));
   };
 
-  const toggleCompleted = async (todoId) => {
-    const standByTodo = await getOneTodoService(todoId);
-    const updateInfo = { ...standByTodo, completed: !standByTodo.completed };
-    const updatedTodo = await updateTodoService(todoId, updateInfo);
-    const updatedTodos = todos.map((todo) =>
-      todo.id === updatedTodo.id ? updatedTodo : todo
-    );
-    setTodos(updatedTodos);
+  const toggleCompleted = async () => {
+    const updateInfo = {
+      ...todo,
+      completed: !todo.completed,
+    };
+    await dispatch(updateTodo(updateInfo));
   };
 
-  const deleteTodo = async (todoId) => {
-    await deleteTodoService(todoId);
-    const updatedTodos = todos.filter((todo) => todo.id !== todoId);
-    setTodos(updatedTodos);
-    alert(`#${todoId} todo is deleted.`);
+  const clickToDelete = async (todoId) => {
+    await dispatch(deleteTodo(todoId));
   };
 
   const btnControls =
     status === "editing" ? (
       <>
-        <button
-          className="btn secondary"
-          onClick={() => updateTodo(todo.id, todo)}
-        >
+        <button className="btn secondary" onClick={saveTodoUpdate}>
           Save
         </button>
         <button className="btn" onClick={handleCancel}>
@@ -56,7 +46,7 @@ const TodoItem = ({ todo, todos, setTodos }) => {
         </button>
       </>
     ) : (
-      <button className="btn text" onClick={() => deleteTodo(todo.id)}>
+      <button className="btn text" onClick={() => clickToDelete(todo.id)}>
         Delete
       </button>
     );
@@ -68,7 +58,7 @@ const TodoItem = ({ todo, todos, setTodos }) => {
           <input
             type="checkbox"
             defaultChecked={todo.completed}
-            onClick={() => toggleCompleted(todo.id)}
+            onClick={toggleCompleted}
           />
         </div>
         <input
