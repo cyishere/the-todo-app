@@ -26,11 +26,6 @@
       "completed": true
     },
     {
-      "id": 12,
-      "content": "how about now ?",
-      "completed": false
-    },
-    {
       "id": 13,
       "content": "Dolore cillum sunt ipsum consequat ipsum duis non laboris laboris.",
       "completed": false
@@ -43,6 +38,11 @@
     {
       "id": 15,
       "content": "refactoring the app",
+      "completed": true
+    },
+    {
+      "id": 16,
+      "content": "change the app structure for Redux",
       "completed": false
     }
   ]

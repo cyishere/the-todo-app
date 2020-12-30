@@ -3,7 +3,7 @@ import {
   deleteTodoService,
   getOneTodoService,
   updateTodoService,
-} from "../services/todoServices";
+} from "../../services/todoServices";
 
 const TodoItem = ({ todo, todos, setTodos }) => {
   const classes = todo.completed ? "completed" : "";

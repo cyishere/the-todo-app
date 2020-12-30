@@ -2,10 +2,7 @@ import axios from "axios";
 
 const url = "http://localhost:3001/todos";
 
-const getAllTodosService = async () => {
-  const response = await axios.get(url);
-  return response.data.sort((a, b) => (a.id < b.id ? b : a));
-};
+const getAllTodosService = async () => {};
 
 const addNewTodoService = async (todo) => {
   const response = await axios.post(url, todo);
