@@ -26,11 +26,6 @@
       "completed": true
     },
     {
-      "id": 12,
-      "content": "how about now ?",
-      "completed": false
-    },
-    {
       "id": 13,
       "content": "Dolore cillum sunt ipsum consequat ipsum duis non laboris laboris.",
       "completed": false
@@ -38,11 +33,6 @@
     {
       "id": 14,
       "content": "Nisi in eu incididunt irure.",
-      "completed": false
-    },
-    {
-      "id": 15,
-      "content": "refactoring the app",
       "completed": false
     }
   ]

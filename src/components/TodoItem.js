@@ -39,7 +39,7 @@ const TodoItem = ({ todo, todos, setTodos }) => {
     await deleteTodoService(todoId);
     const updatedTodos = todos.filter((todo) => todo.id !== todoId);
     setTodos(updatedTodos);
-    alert(`#${todoId} todo is deleted.`);
+    // alert(`#${todoId} todo is deleted.`);
   };
 
   const btnControls =

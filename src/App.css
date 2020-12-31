@@ -120,3 +120,12 @@ todo-item_control .btn {
   outline: none;
   border: 1px solid var(--color-primary);
 }
+
+footer {
+  font-size: 1.6rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  text-align: center;
+  margin-top: 3rem;
+  border-top: 1px solid var(--color-light-grey);
+}

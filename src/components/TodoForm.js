@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { addNewTodoService } from "../services/todoServices";
 
 const generateId = (todos) => {
@@ -5,7 +6,9 @@ const generateId = (todos) => {
   return Math.max(...ids) + 1;
 };
 
-const TodoForm = ({ todoInput, setTodoInput, todos, setTodos }) => {
+const TodoForm = ({ todos, setTodos }) => {
+  const [todoInput, setTodoInput] = useState("");
+
   const handleChange = (e) => {
     setTodoInput(e.target.value);
   };
